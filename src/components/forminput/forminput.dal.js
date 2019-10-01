@@ -48,7 +48,6 @@ const createPost = async (req, res) => {
     return await createSuccessResponse(dataToSerialize, res, 'example');
 
   } catch (e) {
-    console.log(e)
     return await createErrorResponse(error, res)
   };
 };

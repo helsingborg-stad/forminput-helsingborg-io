@@ -11,29 +11,42 @@ const routes = require('./components/routes');
 const logger = require('./utils/logger');
 // const WebSocketServer = require('./ws.server');
 
-/**
- * Enviorment Variabels
- */
-const { PORT, API_BASE } = process.env;
-
-/**
- * Init App
- */
+// Init App
 const app = express();
+const V1BASEPATH = '/api/v1';
+
+// Config
+const { PORT } = process.env;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-/**
- * Logging
- */
+// Request logging
 app.use(pino({ logger }));
 
-/**
- * Routes
- */
+// Add root route for version information of the app.
+app.get('/', (req, res) => res.send({
+  jsonapi: {
+    version: '1.0',
+    meta: {
+      versions: [
+        {
+          version: '1',
+          basepath: '/api/v1/',
+          state: 'beta',
+          releasedate: null,
+        },
+      ],
+      build: '1.0.0',
+      service: 'formInput-helsingborg-io',
+      owner: 'Helsingborg Stad',
+      description: 'Form Input service in helsingborg-io platform. Provides User Input information for forms questions about example.',
+    },
+  },
+}));
 
-app.use(routes());
+// Add routes to the app.
+app.use(V1BASEPATH, routes());
 
 /**
  * Swagger

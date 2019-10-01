@@ -7,6 +7,21 @@ const routes = () => {
   const router = express.Router();
 
   // Here we register what endpoints we want.
+  router.get('/', async (req, res) => res.json({
+    jsonapi: {
+      version: '1.0',
+      meta: {
+        apiVersion: '1',
+        build: pjson.version,
+        service: pjson.name,
+        owner: 'Helsingborg Stad',
+        description: pjson.description,
+      },
+    },
+  }));
+
+
+  // Here we register what endpoints we want.
   router.get('/examples', async (req, res) => {
     const response = await dal.read.posts(req, res);
     return response;
