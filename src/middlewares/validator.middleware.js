@@ -1,6 +1,7 @@
 const { validate } = require('../validation/validation');
 const { WeakValidationError } = require('../utils/error');
 const logger = require('../utils/logger');
+const jsonapi = require('../jsonapi');
 
 // Joi validation options
 const validationOptions = {
@@ -28,7 +29,7 @@ const middleware = (schema, field = 'body', detailedError = false) => (req, res,
         ? e
         : new WeakValidationError('Invalid request data. Please review request and try again.');
 
-      res.status(err.status || 422).json(err);
+      res.json(jsonapi.serializer.serializeError(err))
     });
 };
 
