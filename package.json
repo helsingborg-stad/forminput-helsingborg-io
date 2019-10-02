@@ -1,7 +1,7 @@
 {
-  "name": "helsingborg-io-boilerplate",
+  "name": "forminput-io-boilerplate",
   "version": "0.0.1",
-  "description": "Boilerplate repository for nodejs based LABS projects.",
+  "description": "Form Input project that save the user respond from the form questions",
   "main": "server.js",
   "scripts": {
     "start": "NODE_ENV=production node -r dotenv/config src/server.js",
@@ -10,7 +10,9 @@
     "test:watch": "./node_modules/.bin/mocha src/components/**/*.test.js --watch",
     "lint": "./node_modules/eslint/bin/eslint.js src/**",
     "migrate:latest": "./node_modules/.bin/knex --cwd src/db/ migrate:latest",
-    "migrate:rollback": "./node_modules/.bin/knex --cwd src/db/ migrate:rollback"
+    "migrate:rollback": "./node_modules/.bin/knex --cwd src/db/ migrate:rollback",
+    "seed:run": "./node_modules/.bin/knex seed:run",
+    "setup": "node setup.js"
   },
   "author": "Helsingborg Stad",
   "license": "MIT",
