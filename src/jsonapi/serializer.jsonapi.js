@@ -17,6 +17,7 @@ const Serializer = new JSONAPISerializer({
  * register schemas to serializer imported from jsonapi/schemas.
  */
 
-Serializer.register('example', schemas.example);
+Serializer.register('form', schemas.form);
+Serializer.register('answer', schemas.answer);
 
 module.exports = Serializer;
