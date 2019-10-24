@@ -1,0 +1,32 @@
+{
+    "get": {
+      "tags": ["CRUD operations"],
+      "summary": "Query a single form on id",
+      "description": "Detaild description",
+      "operationId": "queryForms",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "The id of the form",
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": {
+            "description": "",
+            "schema": {
+                "$ref": "../definitions/definitions.swagger.json#/success"
+            }
+          
+        },
+        "422": {
+          "description": "Validation Error",
+          "schema": {
+            "$ref": "../definitions/definitions.swagger.json#/failure"
+          }
+        }
+      }
+    }
+  }
+
