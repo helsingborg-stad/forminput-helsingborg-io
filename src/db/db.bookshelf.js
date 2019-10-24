@@ -1,13 +1,12 @@
+/* eslint-disable no-use-before-define */
 const { bookshelf } = require('./db.client');
 
-bookshelf.plugin('registry');
-
-const Responses = bookshelf.Model.extend({
-  tableName: 'responses',
+const Answers = bookshelf.Model.extend({
+  tableName: 'answers',
   requireFetch: false,
   hasTimestamps: true,
 });
 
 module.exports = {
-  Responses,
+  answers: bookshelf.model('Answers', Answers),
 };

@@ -1,6 +1,6 @@
-exports.seed = knex => knex('responses')
+exports.seed = knex => knex('answers')
   .del()
-  .then(() => knex('responses').insert([
+  .then(() => knex('answers').insert([
     {
       user_id: 2,
       question_position: 1,
@@ -306,48 +306,6 @@ exports.seed = knex => knex('responses')
       user_id: 3,
       question_position: 19,
       answer: '198603222392',
-      form_id: 1,
-      question_type: 'single',
-    },
-    {
-      user_id: 3,
-      question_position: 20,
-      answer: 'Bertil Bo',
-      form_id: 1,
-      question_type: 'single',
-    },
-    {
-      user_id: 3,
-      question_position: 21,
-      answer: 'Bom',
-      form_id: 1,
-      question_type: 'single',
-    },
-    {
-      user_id: 3,
-      question_position: 22,
-      answer: 'Tapparegatan 2',
-      form_id: 1,
-      question_type: 'single',
-    },
-    {
-      user_id: 3,
-      question_position: 23,
-      answer: '98137',
-      form_id: 1,
-      question_type: 'single',
-    },
-    {
-      user_id: 3,
-      question_position: 24,
-      answer: 'Kiruna',
-      form_id: 1,
-      question_type: ' single',
-    },
-    {
-      user_id: 3,
-      question_position: 25,
-      answer: 'nej',
       form_id: 1,
       question_type: 'single',
     },

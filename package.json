@@ -1,7 +1,7 @@
 {
-  "name": "forminput-io-boilerplate",
+  "name": "forminput-helsingborg-io",
   "version": "0.0.1",
-  "description": "Form Input project that save the user respond from the form questions",
+  "description": "Form Input Service that save the user respond from the form questions",
   "main": "server.js",
   "scripts": {
     "start": "NODE_ENV=production node -r dotenv/config src/server.js",
@@ -31,6 +31,7 @@
     "@hapi/joi": "^15.0.1",
     "axios": "^0.18.0",
     "body-parser": "^1.19.0",
+    "bookshelf": "^1.0.0",
     "config": "^3.1.0",
     "dotenv": "^8.0.0",
     "easy-soap-request": "^2.5.0",
