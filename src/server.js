@@ -1,7 +1,5 @@
 require('dotenv').config();
-
 const express = require('express');
-const https = require('https');
 const pino = require('express-pino-logger');
 const swaggerUi = require('swagger-ui-express');
 const bodyParser = require('body-parser');
@@ -40,7 +38,7 @@ app.get('/', (req, res) => res.send({
       build: '1.0.0',
       service: 'formInput-helsingborg-io',
       owner: 'Helsingborg Stad',
-      description: 'Form Input service in helsingborg-io platform. Provides User Input information for forms questions about example.',
+      description: 'Form Input Service in helsingborg-io platform. Provides User Input information for forms questions about example.',
     },
   },
 }));

@@ -1,7 +1,8 @@
 const express = require('express');
 const dal = require('./forminput.dal');
-const { post, put } = require('./forminput.schema');
+const { post } = require('./forminput.schema');
 const Validator = require('../../middlewares/validator.middleware');
+const pjson = require('../../../package.json');
 
 const routes = () => {
   const router = express.Router();
@@ -22,24 +23,49 @@ const routes = () => {
 
 
   // Here we register what endpoints we want.
-  router.get('/examples', async (req, res) => {
-    const response = await dal.read.posts(req, res);
+
+  // Read endpoint
+  router.get('/users/:userId/forms', async (req, res) => {
+    const response = await dal.read.userForms(req, res);
     return response;
   });
 
-  router.get('/examples/:id', async (req, res) => {
-    const response = await dal.read.post(req, res);
+  router.get('/users/:userId/forms/:formId', async (req, res) => {
+    const answer = await dal.read.userForm(req, res);
+    return answer;
+  });
+
+  // Delete endpoints
+  router.delete('/users/:userId/forms', async (req, res) => {
+    const response = await dal.del.userForms(req, res);
     return response;
   });
 
-  router.post('/examples', Validator(post.example, 'body', true), async (req, res) => {
-    const response = await dal.create.post(req);
-    return res.json(response);
+  router.delete('/users/:userId/forms/:formId', async (req, res) => {
+    const answer = await dal.del.userForm(req, res);
+    return answer;
   });
 
-  router.patch('/examples/:id', Validator(put.example, 'body', true), async (req, res) => {
-    const response = await dal.update.post(req);
-    return res.json(response);
+  // Create endpoints
+  router.post('/users/:userId/forms', async (req, res) => {
+    const response = await dal.create.userForms(req, res);
+    return response;
+  });
+
+  router.post('/users/:userId/forms/:formId', async (req, res) => {
+    const answer = await dal.create.userform(req, res);
+    return answer;
+  });
+
+  // Update endpoints
+  router.put('/users/:userId/forms', async (req, res) => {
+    const response = await dal.read.userForms(req, res);
+    return response;
+  });
+
+  router.put('/users/:userId/forms/:formId', async (req, res) => {
+    const answer = await dal.read.userform(req, res);
+    return answer;
   });
 
   return router;
