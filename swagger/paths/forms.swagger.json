@@ -1,0 +1,23 @@
+{
+    "get": {
+      "tags": ["CRUD operations"],
+      "summary": "Query forms",
+      "description": "Query multiple forms.",
+      "operationId": "queryForms",
+      "parameters": [],
+      "responses": {
+        "200": {
+            "description": "",
+            "schema": {
+                "$ref": "../definitions/definitions.swagger.json#/success"
+            }
+        },
+        "422": {
+          "description": "Json Api Error",
+          "schema": {
+            "$ref": "../definitions/definitions.swagger.json#/failure"
+          }
+        }
+      }
+    }
+}

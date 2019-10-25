@@ -1,5 +1,6 @@
-const example = require('./example.jsonapi');
+
+const answer = require('./answer.jsonapi');
 
 module.exports = {
-  example,
+  answer,
 };
