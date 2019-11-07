@@ -1,4 +1,4 @@
-const axiosOptions =  {
+const axiosOptions = {
   headers: {
     'Content-Type': 'application/json',
   },
@@ -6,5 +6,5 @@ const axiosOptions =  {
 };
 
 module.exports = {
-  axiosOptions
-}
+  axiosOptions,
+};

@@ -9,6 +9,7 @@ const createDataObject = (data) => {
   };
 
   if (relations) {
+    // eslint-disable-next-line array-callback-return
     Object.keys(relations).map((key) => {
       const relation = relations[key];
       if (relation.length > 0) {

@@ -1,59 +1,50 @@
-const axios = require('axios');
-const { axiosOptions } = require('../../utils/constants');
-const { responseSchema } = require('./forminput.schema');
-const { validate } = require('../../validation/validation');
 const logger = require('../../utils/logger');
 const jsonapi = require('../../jsonapi');
-const { throwCustomDomainError } = require('../../utils/error')
+const { ResourceNotFoundError } = require('../../utils/error');
+const {
+  fetchAllForms, fetchOneForm, postAnswer,
+  deleteUserForms, deleteUserForm, updateAnswer
+} = require('./forminput.db');
 
 const createErrorResponse = async (error, res) => {
-  logger.error(error);
+  logger.error('Error: ', error);
   const serializedData = await jsonapi.serializer.serializeError(error);
   return res.status(error.status).json(serializedData);
 };
 
 const createSuccessResponse = async (data, res, jsonapiType, converter = undefined) => {
-  let dataToSerialize = data
-  
-  if (converter){
+  let dataToSerialize = data;
+
+  if (converter) {
     dataToSerialize = await jsonapi.convert[converter](dataToSerialize);
   }
-  
+
   const serializedData = await jsonapi.serializer.serialize(jsonapiType, dataToSerialize);
-  return res.json(serializedData)
+  return res.json(serializedData);
 };
-
-const tryAxiosRequest = async (callback) => {
-  try {
-    const response = await callback()
-    return response
-  } catch (error){
-    throwCustomDomainError(error.response.status)
-  }
-};
-
 
 /**
  * CREATE RESOURCE METHODS
  */
 
-const createPost = async (req, res) => {
+const createAnswer = async (req, res) => {
   // Write method for creating a resource
   try {
-    const { body } = req
-    // Here we handle the creation of a resource
+    // Add Response data to DB
+    await postAnswer(req.body);
 
-    // In this case we create a fake response by returning the request body params.
-    const dataToSerialize = {id: "10", body: body.body, title: body.title }
-    return await createSuccessResponse(dataToSerialize, res, 'example');
+    // Fetch data from DB.
+    const { userId, formId } = req.body;
+    const data = await fetchFormAnswers(userId, formId);
 
-  } catch (e) {
-    return await createErrorResponse(error, res)
-  };
+    return await createSuccessResponse(data, res, 'formInput');
+  } catch (error) {
+    return createErrorResponse(error, res);
+  }
 };
 
 const create = {
-  post: createPost,
+  post: createAnswer,
 };
 
 
@@ -61,36 +52,41 @@ const create = {
  * READ RESOURCE METHODS
  */
 
-const fetchAllPosts = async (req, res) => {
+const readUserForms = async (req, res) => {
   // Write method for reading a resource (in this case a get request towards the testapi)
   try {
-    const testApiUrl = 'https://jsonplaceholder.typicode.com/posts';
+    const { userId } = req.params;
+    const queryData = await fetchAllForms(userId);
 
-    const resourceData = await tryAxiosRequest( callback = () => axios.get(testApiUrl, axiosOptions));
+    if (!queryData) {
+      throw new ResourceNotFoundError('No forms could be found');
+    }
 
-    return createSuccessResponse(resourceData, res, 'example', 'apiResponse');
+    return await createSuccessResponse(queryData, res, 'answer', 'queryData');
   } catch (error) {
-    return createErrorResponse(error, res)
+    return createErrorResponse(error, res);
   }
 };
 
-const fetchOnePost = async (req, res) => {
+const readForm = async (req, res) => {
   // Write method for reading a resource (in this case a get request towards the testapi)
   try {
-    const { id } = req.params
-    const testApiUrl = `https://jsonplaceholder.typicode.com/posts/${id}`;
+    const { formId, userId } = req.params;
+    const queryData = await fetchOneForm(userId, formId);
 
-    const resourceData = await tryAxiosRequest( callback = () => axios.get(testApiUrl, axiosOptions) );
+    if (!queryData) {
+      throw new ResourceNotFoundError(`The form with id ${formId} of the user ${userId} could not be found`);
+    }
 
-    return await createSuccessResponse(resourceData, res, 'example', 'apiResponse');
+    return await createSuccessResponse(queryData, res, 'answer', 'queryData');
   } catch (error) {
-    return await createErrorResponse(error, res)
+    return createErrorResponse(error, res);
   }
 };
 
 const read = {
-  posts: fetchAllPosts,
-  post: fetchOnePost,
+  userForms: readUserForms,
+  userForm: readForm,
 };
 
 
@@ -99,32 +95,32 @@ const read = {
  */
 
 
-const updatePost = async (req, res) => {
+const updateOneResponse = async (req, res) => {
   try {
     const { body, params } = req
-    // Here we handle the creation of a resource
-    // Check if resource exsists
-    const testApiUrl = `https://jsonplaceholder.typicode.com/posts/${params.id}`;
-
-    const resourceData = await client
-      .get(testApiUrl);
-
-    if (Object.keys(resourceData.data).length < 0) {
-        throwCustomDomainError(404);
-    }
-
-    // In this case we create a fake response by returning the request body params.
-    const dataToSerialize = {id: params.id, title: body.title }
- 
-    return createSuccessResponse(dataToSerialize, res, 'example');
+    await updateResponse(body);
+    return createSuccessResponse(dataToSerialize, res, 'formInput');
 
   } catch (e) {
-    return await createErrorResponse(error, res)
+    return createErrorResponse(e, res);
   };
 };
 
+
+// const updateAllResponses = async (req, res) => {
+//   try {
+//     const { body, params } = req
+//     return createSuccessResponse(dataToSerialize, res, 'formInput');
+
+//   } catch (e) {
+//     return await createErrorResponse(error, res)
+//   };
+// };
+
+
 const update = {
-  post: updatePost,
+  reponse: updateOneResponse,
+  // responses: updateAllResponses,
 };
 
 
@@ -132,12 +128,18 @@ const update = {
  * DELETE RESOURCE METHODS
  */
 
-const deleteResourceMethod = (req) => {
+const deleteOneResponse = (req) => {
+  // Write method for deleting a resource
+};
+
+
+const deleteAllResponses = (req) => {
   // Write method for deleting a resource
 };
 
 const del = {
-  resource: deleteResourceMethod,
+  response: deleteOneResponse,
+  responses: deleteAllResponses,
 };
 
 
