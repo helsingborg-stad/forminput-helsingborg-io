@@ -50,25 +50,18 @@ const postAnswer = async (answer) => {
 };
 
 // Delete All Answers of a user for a specific form
-const deleteUserForms = async (userId) => {
-  try {
-    answers.where('user_id', userId)
-      .destroy()
-      .then((res) => { logger.info('success'); return res.json({ success: true }); })
-      .catch((e) => { logger.error('failed', e); return e; });
-  } catch (e) {
-    logger.error(e);
-    throw e;
-  }
-};
+const deleteUserForms = async userId => answers.where('user_id', userId)
+  .destroy()
+  .then((res) => { logger.info('success'); return res.json({ messeage: 'Success of Deletion' }); })
+  .catch((e) => { logger.error('failed', e); throw new ResourceNotFoundError(e.message); });
 
 // Delete All Answers of a user for a specific form
 const deleteUserForm = async (userId, formId) => {
   try {
     answers.where('user_id', userId).where('form_id', formId)
       .destroy()
-      .then((res) => { logger.info('success'); return res.json({ success: true }); })
-      .catch((e) => { logger.error('failed', e); return e; });
+      .then((res) => { logger.info('success'); return res.status(200).json({ messeage: 'Sucess of Deletion' }); })
+      .catch((e) => { logger.error('failed', e); throw new ResourceNotFoundError(e.message); });
   } catch (e) {
     logger.error(e);
     throw e;

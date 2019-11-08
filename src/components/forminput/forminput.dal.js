@@ -1,13 +1,11 @@
-const logger = require('../../utils/logger');
 const jsonapi = require('../../jsonapi');
 const { ResourceNotFoundError } = require('../../utils/error');
 const {
   fetchAllForms, fetchOneForm, postAnswer,
-  deleteUserForms, deleteUserForm, updateAnswer
+  deleteUserForms, deleteUserForm, updateAnswer,
 } = require('./forminput.db');
 
 const createErrorResponse = async (error, res) => {
-  logger.error('Error: ', error);
   const serializedData = await jsonapi.serializer.serializeError(error);
   return res.status(error.status).json(serializedData);
 };
@@ -35,7 +33,7 @@ const createAnswer = async (req, res) => {
 
     // Fetch data from DB.
     const { userId, formId } = req.body;
-    const data = await fetchFormAnswers(userId, formId);
+    const data = await fetchOneForm(userId, formId);
 
     return await createSuccessResponse(data, res, 'formInput');
   } catch (error) {
@@ -95,15 +93,14 @@ const read = {
  */
 
 
-const updateOneResponse = async (req, res) => {
+const updateOneAnswer = async (req, res) => {
   try {
-    const { body, params } = req
-    await updateResponse(body);
+    const { body } = req;
+    const dataToSerialize = await updateAnswer(body);
     return createSuccessResponse(dataToSerialize, res, 'formInput');
-
   } catch (e) {
     return createErrorResponse(e, res);
-  };
+  }
 };
 
 
@@ -119,8 +116,8 @@ const updateOneResponse = async (req, res) => {
 
 
 const update = {
-  reponse: updateOneResponse,
-  // responses: updateAllResponses,
+  answer: updateOneAnswer,
+  // answers: updateAllAnswers,
 };
 
 
@@ -128,18 +125,30 @@ const update = {
  * DELETE RESOURCE METHODS
  */
 
-const deleteOneResponse = (req) => {
-  // Write method for deleting a resource
+const deleteForms = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const dataToSerialize = await deleteUserForms(userId);
+    return createSuccessResponse(dataToSerialize, res, 'formInput');
+  } catch (e) {
+    return createErrorResponse(e, res);
+  }
 };
 
 
-const deleteAllResponses = (req) => {
-  // Write method for deleting a resource
+const deleteForm = async (req, res) => {
+  try {
+    const { userId, formId } = req.params;
+    const dataToSerialize = await deleteUserForm(userId, formId);
+    return createSuccessResponse(dataToSerialize, res, 'formInput');
+  } catch (e) {
+    return createErrorResponse(e, res);
+  }
 };
 
 const del = {
-  response: deleteOneResponse,
-  responses: deleteAllResponses,
+  userForms: deleteForms,
+  userForm: deleteForm,
 };
 
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const dal = require('./forminput.dal');
-const { post } = require('./forminput.schema');
-const Validator = require('../../middlewares/validator.middleware');
+// const { post } = require('./forminput.schema');
+// const Validator = require('../../middlewares/validator.middleware');
 const pjson = require('../../../package.json');
 
 const routes = () => {
@@ -58,13 +58,8 @@ const routes = () => {
   });
 
   // Update endpoints
-  router.put('/users/:userId/forms', async (req, res) => {
-    const response = await dal.read.userForms(req, res);
-    return response;
-  });
-
   router.put('/users/:userId/forms/:formId', async (req, res) => {
-    const answer = await dal.read.userform(req, res);
+    const answer = await dal.update.answer(req, res);
     return answer;
   });
 

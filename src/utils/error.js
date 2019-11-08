@@ -80,6 +80,7 @@ const throwCustomDomainError = (statusCode) => {
 
 module.exports = {
   throwCustomDomainError,
+  ResourceNotFoundError,
   domainErrors: {
     InternalServerError,
     ValidationError,

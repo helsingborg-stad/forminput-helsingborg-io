@@ -53,7 +53,7 @@ app.use(V1BASEPATH, routes());
 
 jsonSchemaRefParser.dereference(swaggerDocument, (err, schema) => {
   if (err) {
-    console.error(err);
+    logger.error(err);
   } else {
     // `schema` is just a normal JavaScript object that contains your entire JSON Schema,
     // including referenced files, combined into a single object

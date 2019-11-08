@@ -3,7 +3,7 @@ require('dotenv').config({ path: './.env.test' });
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../../server');
-const Persons = require('./person.db');
+const Persons = require('./forminput.db');
 const { client } = require('../../db/db.client');
 
 const should = chai.should();
