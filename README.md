@@ -1,8 +1,5 @@
-# labs-node-js-boilerplate
-Boilerplate repository for nodejs based LABS projects.
-
-This boilerplats is built on nodejs and express. It includes an example that showcases
-everything from how the app is set up to routing and validation.
+# Form Input Service
+Api for storing the user response of the forms question.
 
 ## Development
 Prerequisite: local MySQL server running
@@ -34,8 +31,6 @@ To run the tests on code-changes, use ```npm run test:watch```
 
 All files following the *.test.js-syntax will be included.
 
-## Deployment
-TODO
 
 ## Docker
 

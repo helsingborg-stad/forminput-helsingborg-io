@@ -1,23 +1,59 @@
 {
-    "get": {
-      "tags": ["CRUD operations"],
-      "summary": "Query forms",
-      "description": "Query multiple forms.",
-      "operationId": "queryForms",
-      "parameters": [],
-      "responses": {
-        "200": {
-            "description": "",
-            "schema": {
-                "$ref": "../definitions/definitions.swagger.json#/success"
-            }
-        },
-        "422": {
-          "description": "Json Api Error",
+  "get": {
+    "tags": ["Query or Delete Forms of a User"],
+    "summary": "Query forms",
+    "description": "Query multiple forms.",
+    "operationId": "queryForms",
+    "parameters": [
+      {
+        "name": "userId",
+        "in": "path",
+        "description": "The id of the user",
+        "type": "string"
+      }
+    ],
+    "responses": {
+      "200": {
+          "description": "",
           "schema": {
-            "$ref": "../definitions/definitions.swagger.json#/failure"
+              "$ref": "../definitions/definitions.swagger.json#/success"
           }
+      },
+      "422": {
+        "description": "Json Api Error",
+        "schema": {
+          "$ref": "../definitions/definitions.swagger.json#/failure"
         }
       }
     }
+  },
+  "delete": {
+    "tags": ["Query or Delete Forms of a User"],
+    "summary": "Delete All answers of user with personNr",
+    "description": "Detail description",
+    "operationId": "deleteAnswers",
+    "parameters": [
+      {
+        "name": "userId",
+        "in": "path",
+        "description": "The id of the user",
+        "type": "string"
+      }
+    ],
+    "responses": {
+      "200": {
+          "description": "",
+          "schema": {
+              "$ref": "../definitions/definitions.swagger.json#/success"
+          }
+        
+      },
+      "422": {
+        "description": "Validation Error",
+        "schema": {
+          "$ref": "../definitions/definitions.swagger.json#/failure"
+        }
+      }
+    }
+  }
 }

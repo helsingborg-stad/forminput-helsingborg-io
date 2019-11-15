@@ -5,7 +5,7 @@
       "title": "Form Input API",
       "description": "This is a schema for responses in the JSON API format. For more, see http://jsonapi.org"
     },
-    "host": "localhost:3008",
+    "host": "localhost:3008/api/v1",
     "paths": {
         "$ref": "swagger/paths/paths.swagger.json"
     },
