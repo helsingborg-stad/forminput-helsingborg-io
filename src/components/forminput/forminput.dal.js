@@ -1,3 +1,4 @@
+const logger = require('../../utils/logger');
 const jsonapi = require('../../jsonapi');
 const { ResourceNotFoundError } = require('../../utils/error');
 const {
@@ -95,9 +96,12 @@ const read = {
 
 const updateOneAnswer = async (req, res) => {
   try {
-    const { body } = req;
-    const dataToSerialize = await updateAnswer(body);
-    return createSuccessResponse(dataToSerialize, res, 'formInput');
+    const { body, params } = req;
+    logger.debug('TCL: updateOneAnswer -> body', body);
+
+    const dataToSerialize = await updateAnswer(body, params);
+    console.log('TCL: updateOneAnswer -> dataToSerialize', dataToSerialize);
+    return createSuccessResponse(dataToSerialize, res, 'answer');
   } catch (e) {
     return createErrorResponse(e, res);
   }
@@ -129,7 +133,7 @@ const deleteForms = async (req, res) => {
   try {
     const { userId } = req.params;
     const dataToSerialize = await deleteUserForms(userId);
-    return createSuccessResponse(dataToSerialize, res, 'formInput');
+    return createSuccessResponse(dataToSerialize, res, 'answer');
   } catch (e) {
     return createErrorResponse(e, res);
   }
@@ -140,7 +144,8 @@ const deleteForm = async (req, res) => {
   try {
     const { userId, formId } = req.params;
     const dataToSerialize = await deleteUserForm(userId, formId);
-    return createSuccessResponse(dataToSerialize, res, 'formInput');
+    logger.info(dataToSerialize);
+    return createSuccessResponse(dataToSerialize, res, 'answer');
   } catch (e) {
     return createErrorResponse(e, res);
   }

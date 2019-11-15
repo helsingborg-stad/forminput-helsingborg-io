@@ -47,18 +47,13 @@ const routes = () => {
   });
 
   // Create endpoints
-  router.post('/users/:userId/forms', async (req, res) => {
-    const response = await dal.create.userForms(req, res);
-    return response;
-  });
-
-  router.post('/users/:userId/forms/:formId', async (req, res) => {
-    const answer = await dal.create.userform(req, res);
+  router.post('/answers', async (req, res) => {
+    const answer = await dal.create.post(req, res);
     return answer;
   });
 
   // Update endpoints
-  router.put('/users/:userId/forms/:formId', async (req, res) => {
+  router.put('/answers', async (req, res) => {
     const answer = await dal.update.answer(req, res);
     return answer;
   });
