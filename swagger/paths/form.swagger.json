@@ -1,32 +1,73 @@
 {
-    "get": {
-      "tags": ["CRUD operations"],
-      "summary": "Query a single form on id",
-      "description": "Detaild description",
-      "operationId": "queryForms",
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "description": "The id of the form",
-          "type": "string"
-        }
-      ],
-      "responses": {
-        "200": {
-            "description": "",
-            "schema": {
-                "$ref": "../definitions/definitions.swagger.json#/success"
-            }
-          
-        },
-        "422": {
-          "description": "Validation Error",
+  "get": {
+    "tags": ["Query or Delete Specific Form"],
+    "summary": "Query a single form on id",
+    "description": "Detaild description",
+    "operationId": "queryForms",
+    "parameters": [
+      {
+        "name": "userId",
+        "in": "path",
+        "description": "The id of the user",
+        "type": "string"
+      },
+      {
+        "name": "formId",
+        "in": "path",
+        "description": "The id of the form",
+        "type": "string"
+      }
+    ],
+    "responses": {
+      "200": {
+          "description": "",
           "schema": {
-            "$ref": "../definitions/definitions.swagger.json#/failure"
+              "$ref": "../definitions/definitions.swagger.json#/success"
           }
+        
+      },
+      "422": {
+        "description": "Validation Error",
+        "schema": {
+          "$ref": "../definitions/definitions.swagger.json#/failure"
+        }
+      }
+    }
+  },
+  "delete": {
+    "tags": ["Query or Delete Specific Form"],
+    "summary": "Delete All answers of user with userId for a specifik Form",
+    "description": "Detail description",
+    "operationId": "deleteAnswers",
+    "parameters": [
+      {
+        "name": "userId",
+        "in": "path",
+        "description": "The id of the user",
+        "type": "string"
+      },
+      {
+        "formId": "formId",
+        "in": "path",
+        "description": "The id of the form",
+        "type": "string"
+      }
+    ],
+    "responses": {
+      "200": {
+          "description": "",
+          "schema": {
+              "$ref": "../definitions/definitions.swagger.json#/success"
+          }
+        
+      },
+      "422": {
+        "description": "Validation Error",
+        "schema": {
+          "$ref": "../definitions/definitions.swagger.json#/failure"
         }
       }
     }
   }
+}
 

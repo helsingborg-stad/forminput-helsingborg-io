@@ -1,0 +1,73 @@
+{
+  "post": {
+    "tags": ["Post or Update Answer"],
+    "summary": "Create an answer",
+    "description": "Create answer ",
+    "operationId": "postanswer",
+    "parameters": [
+      {
+        "in": "body",
+        "name": "body",
+        "description": "Created answer object",
+        "required": true,
+        "schema": {
+          "$ref":"../definitions/definitions.swagger.json#/answer"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+          "description": "",
+          "schema": {
+              "$ref": "../definitions/definitions.swagger.json#/success"
+          }
+        
+      },
+      "422": {
+        "description": "Validation Error",
+        "schema": {
+          "$ref": "../definitions/definitions.swagger.json#/failure"
+        }
+      }
+    }
+  },
+  "put": {
+    "tags": ["Post or Update Answer"],
+    "summary": "Updated answer",
+    "description": "Updated a specifik answer.",
+    "operationId": "updateAnswer",
+    "parameters": [
+      {
+        "name": "answerId",
+        "in": "path",
+        "description": "personNr of the user that need to be updated",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "in": "body",
+        "name": "body",
+        "description": "Updated answer object",
+        "required": true,
+        "schema": {
+          "$ref": "../definitions/definitions.swagger.json#/answer"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+          "description": "",
+          "schema": {
+              "$ref": "../definitions/definitions.swagger.json#/success"
+          }
+        
+      },
+      "422": {
+        "description": "Validation Error",
+        "schema": {
+          "$ref": "../definitions/definitions.swagger.json#/failure"
+        }
+      }
+    }
+  }
+}
