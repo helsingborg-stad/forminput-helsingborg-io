@@ -1,4 +1,3 @@
-const logger = require('../../utils/logger');
 const jsonapi = require('../../jsonapi');
 const { ResourceNotFoundError } = require('../../utils/error');
 const {
@@ -22,6 +21,7 @@ const createSuccessResponse = async (data, res, jsonapiType, converter = undefin
   return res.json(serializedData);
 };
 
+const parseAnswer = body => ({ ...body, answer: body.answer.join(',') });
 /**
  * CREATE RESOURCE METHODS
  */
@@ -30,20 +30,17 @@ const createAnswer = async (req, res) => {
   // Write method for creating a resource
   try {
     // Add Response data to DB
-    await postAnswer(req.body);
+    const parsedAnswer = (req.body.questionType === 'single') ? req.body : parseAnswer(req.body);
+    const data = await postAnswer(parsedAnswer);
 
-    // Fetch data from DB.
-    const { userId, formId } = req.body;
-    const data = await fetchOneForm(userId, formId);
-
-    return await createSuccessResponse(data, res, 'formInput');
+    return await createSuccessResponse(data, res, 'answer');
   } catch (error) {
     return createErrorResponse(error, res);
   }
 };
 
 const create = {
-  post: createAnswer,
+  answer: createAnswer,
 };
 
 
@@ -96,11 +93,11 @@ const read = {
 
 const updateOneAnswer = async (req, res) => {
   try {
-    const { body, params } = req;
-    logger.debug('TCL: updateOneAnswer -> body', body);
+    const { body } = req;
 
-    const dataToSerialize = await updateAnswer(body, params);
-    console.log('TCL: updateOneAnswer -> dataToSerialize', dataToSerialize);
+    const parsedAnswer = (body.questionType === 'single') ? body : parseAnswer(body);
+    const dataToSerialize = await updateAnswer(parsedAnswer);
+
     return createSuccessResponse(dataToSerialize, res, 'answer');
   } catch (e) {
     return createErrorResponse(e, res);
@@ -144,7 +141,6 @@ const deleteForm = async (req, res) => {
   try {
     const { userId, formId } = req.params;
     const dataToSerialize = await deleteUserForm(userId, formId);
-    logger.info(dataToSerialize);
     return createSuccessResponse(dataToSerialize, res, 'answer');
   } catch (e) {
     return createErrorResponse(e, res);

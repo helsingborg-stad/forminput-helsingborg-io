@@ -1,7 +1,7 @@
 const express = require('express');
 const dal = require('./forminput.dal');
-// const { post } = require('./forminput.schema');
-// const Validator = require('../../middlewares/validator.middleware');
+const { post, put, query } = require('./forminput.schema');
+const Validator = require('../../middlewares/validator.middleware');
 const pjson = require('../../../package.json');
 
 const routes = () => {
@@ -25,35 +25,35 @@ const routes = () => {
   // Here we register what endpoints we want.
 
   // Read endpoint
-  router.get('/users/:userId/forms', async (req, res) => {
-    const response = await dal.read.userForms(req, res);
-    return response;
+  router.get('/users/:userId/forms', Validator(query.user, 'params', true), async (req, res) => {
+    const answer = await dal.read.userForms(req, res);
+    return answer;
   });
 
-  router.get('/users/:userId/forms/:formId', async (req, res) => {
+  router.get('/users/:userId/forms/:formId', Validator(query.forms, 'params', true), async (req, res) => {
     const answer = await dal.read.userForm(req, res);
     return answer;
   });
 
   // Delete endpoints
-  router.delete('/users/:userId/forms', async (req, res) => {
-    const response = await dal.del.userForms(req, res);
-    return response;
+  router.delete('/users/:userId/forms', Validator(query.user, 'params', true), async (req, res) => {
+    const answer = await dal.del.userForms(req, res);
+    return answer;
   });
 
-  router.delete('/users/:userId/forms/:formId', async (req, res) => {
+  router.delete('/users/:userId/forms/:formId', Validator(query.forms, 'params', true), async (req, res) => {
     const answer = await dal.del.userForm(req, res);
     return answer;
   });
 
   // Create endpoints
-  router.post('/answers', async (req, res) => {
-    const answer = await dal.create.post(req, res);
+  router.post('/answers', Validator(post.validation, 'body', true), async (req, res) => {
+    const answer = await dal.create.answer(req, res);
     return answer;
   });
 
   // Update endpoints
-  router.put('/answers', async (req, res) => {
+  router.put('/answers', Validator(put.validation, 'body', true), async (req, res) => {
     const answer = await dal.update.answer(req, res);
     return answer;
   });

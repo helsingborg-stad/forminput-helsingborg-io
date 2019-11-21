@@ -32,12 +32,10 @@ const postAnswer = async (answer) => {
     answers.forge({
       user_id: answer.userId,
       form_id: answer.formId,
-      email: answer.email,
       question_type: answer.questionType,
       answer: answer.answer,
-    })
-      .save();
-    return answer;
+    }).save();
+    return ({ status: 200, message: 'Saved answer' });
   } catch (e) {
     logger.error(e);
     throw e;
@@ -56,23 +54,25 @@ const deleteUserForm = async (userId, formId) => answers.where('user_id', userId
   .then((res) => { logger.info('success', res); return ({ status: 200, message: `Success of Deletion of form ${formId} of user ${userId}` }); })
   .catch((e) => { logger.error('failed', e); throw new ResourceNotFoundError(e.message); });
 
-const updateAnswer = async (answer, params) => {
-  const { answerId } = params;
 
-  const fetchedAnswer = await answers.where('id', answerId).fetch();
+// Update one Specific answer
+const updateAnswer = async (answer) => {
+  const { id } = answer;
+
+  const fetchedAnswer = await answers.where('id', id).fetch();
   if (!fetchedAnswer) throw throwCustomDomainError(404);
 
   try {
     answers.forge({
-      id: answerId,
+      id,
       user_id: answer.userId || fetchedAnswer.user_Id,
       form_id: answer.formId || fetchedAnswer.form_id,
-      question_type: answer.question_type || fetchedAnswer.question_type,
+      question_type: answer.questionType || fetchedAnswer.question_type,
       answer: answer.answer || fetchedAnswer.answer,
       updated_at: answer.updated_at || new Date(),
       created_at: answer.created_at || fetchedAnswer.created_at,
     }).save();
-    return ({ status: 200, message: `Updated answer ${answerId}` });
+    return ({ status: 200, message: `Updated answer ${id}` });
   } catch (e) {
     logger.error(e);
     throw e;
