@@ -1,13 +1,11 @@
-const logger = require('../../utils/logger');
 const jsonapi = require('../../jsonapi');
 const { ResourceNotFoundError } = require('../../utils/error');
 const {
   fetchAllForms, fetchOneForm, postAnswer,
-  deleteUserForms, deleteUserForm, updateAnswer
+  deleteUserForms, deleteUserForm, updateAnswer,
 } = require('./forminput.db');
 
 const createErrorResponse = async (error, res) => {
-  logger.error('Error: ', error);
   const serializedData = await jsonapi.serializer.serializeError(error);
   return res.status(error.status).json(serializedData);
 };
@@ -23,6 +21,7 @@ const createSuccessResponse = async (data, res, jsonapiType, converter = undefin
   return res.json(serializedData);
 };
 
+const parseAnswer = body => ({ ...body, answer: body.answer.join(',') });
 /**
  * CREATE RESOURCE METHODS
  */
@@ -31,20 +30,17 @@ const createAnswer = async (req, res) => {
   // Write method for creating a resource
   try {
     // Add Response data to DB
-    await postAnswer(req.body);
+    const parsedAnswer = (req.body.questionType === 'single') ? req.body : parseAnswer(req.body);
+    const data = await postAnswer(parsedAnswer);
 
-    // Fetch data from DB.
-    const { userId, formId } = req.body;
-    const data = await fetchFormAnswers(userId, formId);
-
-    return await createSuccessResponse(data, res, 'formInput');
+    return await createSuccessResponse(data, res, 'answer');
   } catch (error) {
     return createErrorResponse(error, res);
   }
 };
 
 const create = {
-  post: createAnswer,
+  answer: createAnswer,
 };
 
 
@@ -95,15 +91,17 @@ const read = {
  */
 
 
-const updateOneResponse = async (req, res) => {
+const updateOneAnswer = async (req, res) => {
   try {
-    const { body, params } = req
-    await updateResponse(body);
-    return createSuccessResponse(dataToSerialize, res, 'formInput');
+    const { body } = req;
 
+    const parsedAnswer = (body.questionType === 'single') ? body : parseAnswer(body);
+    const dataToSerialize = await updateAnswer(parsedAnswer);
+
+    return createSuccessResponse(dataToSerialize, res, 'answer');
   } catch (e) {
     return createErrorResponse(e, res);
-  };
+  }
 };
 
 
@@ -119,8 +117,8 @@ const updateOneResponse = async (req, res) => {
 
 
 const update = {
-  reponse: updateOneResponse,
-  // responses: updateAllResponses,
+  answer: updateOneAnswer,
+  // answers: updateAllAnswers,
 };
 
 
@@ -128,18 +126,30 @@ const update = {
  * DELETE RESOURCE METHODS
  */
 
-const deleteOneResponse = (req) => {
-  // Write method for deleting a resource
+const deleteForms = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const dataToSerialize = await deleteUserForms(userId);
+    return createSuccessResponse(dataToSerialize, res, 'answer');
+  } catch (e) {
+    return createErrorResponse(e, res);
+  }
 };
 
 
-const deleteAllResponses = (req) => {
-  // Write method for deleting a resource
+const deleteForm = async (req, res) => {
+  try {
+    const { userId, formId } = req.params;
+    const dataToSerialize = await deleteUserForm(userId, formId);
+    return createSuccessResponse(dataToSerialize, res, 'answer');
+  } catch (e) {
+    return createErrorResponse(e, res);
+  }
 };
 
 const del = {
-  response: deleteOneResponse,
-  responses: deleteAllResponses,
+  userForms: deleteForms,
+  userForm: deleteForm,
 };
 
 

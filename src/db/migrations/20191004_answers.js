@@ -5,7 +5,7 @@ const up = async (db) => {
     t.string('form_id').notNull();
     t.string('question_type').notNull();
     t.string('answer').notNull();
-    t.dateTime('created_at').notNull().defaultsTo(db.fn.now());
+    t.timestamps(true, true);
 
     // indices
     t.unique('id');

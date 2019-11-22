@@ -1,32 +1,36 @@
 const Joi = require('@hapi/joi');
-const { id, limit } = require('../../validation/global.schema');
+const { id } = require('../../validation/global.schema');
 
 /**
  * POST SCHEMAS
  */
 
-const examplePostValidaionSchema = Joi.object().keys({
-  title: Joi.string().min(5).max(24).required(),
-  body: Joi.string().min(5).max(200),
-})
+const PostValidaionSchema = Joi.object().keys({
+  userId: Joi.number().required(),
+  formId: Joi.number().required(),
+  answer: Joi.required(),
+  questionType: Joi.string().min(5).max(24).required(),
+});
 
-const post  = {
-  example: examplePostValidaionSchema,
-}
+const post = {
+  validation: PostValidaionSchema,
+};
 
 
 /**
  * PUT SCHEMAS
  */
 
-const examplePutValidaionSchema = Joi.object().keys({
+const PutValidaionSchema = Joi.object().keys({
   id,
-  title: Joi.string().min(5).max(24),
-  body: Joi.string().min(5).max(200),
-})
+  userId: Joi.number().required(),
+  formId: Joi.number().required(),
+  answer: Joi.string().required(),
+  questionType: Joi.string().min(5).max(24).required(),
+});
 
-const put  = {
-  example: examplePutValidaionSchema,
+const put = {
+  validation: PutValidaionSchema,
 };
 
 
@@ -34,14 +38,20 @@ const put  = {
  * QUERY SCHEMAS
  */
 
-const queryExampleValidationSchema = Joi.object().keys({
-  id,
-  limit,
+const queryFormsValidationSchema = Joi.object().keys({
+  userId: Joi.number().required(),
+  formId: Joi.number().required(),
 });
 
+const queryUserValidationSchema = Joi.object().keys({
+  userId: Joi.number().required(),
+});
+
+
 const query = {
-  example: queryExampleValidationSchema
-}
+  forms: queryFormsValidationSchema,
+  user: queryUserValidationSchema,
+};
 
 module.exports = {
   post,
