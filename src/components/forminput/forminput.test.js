@@ -77,7 +77,7 @@ describe('api/v1/', () => {
         .send({
           userId: 4,
           answer: ['England', 'Sverige', 'USA'],
-          formId: 2,
+          formId: '2',
           questionType: 'multiple',
         })
         .then((res) => {
@@ -96,7 +96,7 @@ describe('api/v1/', () => {
         .send({
           userId: 197606270349,
           answer: 'Sverige',
-          formId: 4,
+          formId: '4',
           questionType: 'single',
         })
         .then((res) => {
@@ -116,7 +116,7 @@ describe('api/v1/', () => {
           id: 2,
           userId: 197606270349,
           answer: 'Updated phrase',
-          formId: 5,
+          formId: '5',
           questionType: 'single',
         })
         .then((res) => {
