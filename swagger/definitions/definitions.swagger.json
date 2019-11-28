@@ -295,7 +295,28 @@
           }
         }
       },
-       "answer": {
+       "newAnswer": {
+        "description": "An object describing the answer model",
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "formId": {
+            "type": "string"
+          },
+          "questionType": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "User"
+        }
+      },
+      "answer": {
         "description": "An object describing the answer model",
         "type": "object",
         "properties": {
@@ -303,22 +324,16 @@
             "type": "integer",
             "format": "int64"
           },
-          "user_id": {
+          "userId": {
             "type": "string"
           },
-          "form_id": {
+          "formId": {
             "type": "string"
           },
-          "question_type": {
+          "questionType": {
             "type": "string"
           },
           "answer": {
-            "type": "string"
-          },
-          "created_at": {
-            "type": "string"
-          },
-          "updated_at": {
             "type": "string"
           }
         },

@@ -47,7 +47,7 @@
         "type": "string"
       },
       {
-        "formId": "formId",
+        "name": "formId",
         "in": "path",
         "description": "The id of the form",
         "type": "string"

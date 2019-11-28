@@ -17,7 +17,7 @@ describe('api/v1/', () => {
     it('should return all forms of a single user', async () => {
       chai
         .request(server)
-        .get('/api/v1/users/2/forms')
+        .get('/api/v1/users/197606270349/forms')
         .send()
         .then((res) => {
           res.should.have.status(200);
@@ -31,7 +31,7 @@ describe('api/v1/', () => {
     it('should return a single form of a single user', async () => {
       chai
         .request(server)
-        .get('/api/v1/users/3/forms/1')
+        .get('/api/v1/users/197606270349/forms/3')
         .send()
         .then((res) => {
           res.should.have.status(200);
@@ -45,7 +45,7 @@ describe('api/v1/', () => {
     it('should erase all forms of a single user', async () => {
       chai
         .request(server)
-        .delete('/api/v1/users/2/forms')
+        .delete('/api/v1/users/195711260629/forms')
         .send()
         .then((res) => {
           res.should.have.status(200);
@@ -59,7 +59,7 @@ describe('api/v1/', () => {
     it('should erase all forms of a single user', async () => {
       chai
         .request(server)
-        .delete('/api/v1/users/3/forms/1')
+        .delete('/api/v1/users/197606270349/forms/3')
         .send()
         .then((res) => {
           res.should.have.status(200);
@@ -94,9 +94,9 @@ describe('api/v1/', () => {
         .request(server)
         .post('/api/v1/answers')
         .send({
-          userId: 4,
+          userId: 197606270349,
           answer: 'Sverige',
-          formId: 3,
+          formId: 4,
           questionType: 'single',
         })
         .then((res) => {
@@ -113,10 +113,10 @@ describe('api/v1/', () => {
         .request(server)
         .put('/api/v1/answers')
         .send({
-          id: 45,
-          userId: 4,
-          answer: 'Test phrase',
-          formId: 3,
+          id: 2,
+          userId: 197606270349,
+          answer: 'Updated phrase',
+          formId: 5,
           questionType: 'single',
         })
         .then((res) => {

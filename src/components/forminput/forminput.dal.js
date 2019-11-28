@@ -30,7 +30,8 @@ const createAnswer = async (req, res) => {
   // Write method for creating a resource
   try {
     // Add Response data to DB
-    const parsedAnswer = (req.body.questionType === 'single') ? req.body : parseAnswer(req.body);
+    const { questionType, answer } = req.body;
+    const parsedAnswer = (questionType === 'multiple' && answer instanceof Array) ? parseAnswer(req.body) : req.body;
     const data = await postAnswer(parsedAnswer);
 
     return await createSuccessResponse(data, res, 'answer');

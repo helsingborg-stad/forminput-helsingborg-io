@@ -11,7 +11,7 @@
         "description": "Created answer object",
         "required": true,
         "schema": {
-          "$ref":"../definitions/definitions.swagger.json#/answer"
+          "$ref":"../definitions/definitions.swagger.json#/newAnswer"
         }
       }
     ],
@@ -37,13 +37,6 @@
     "description": "Updated a specifik answer.",
     "operationId": "updateAnswer",
     "parameters": [
-      {
-        "name": "answerId",
-        "in": "path",
-        "description": "personNr of the user that need to be updated",
-        "required": true,
-        "type": "string"
-      },
       {
         "in": "body",
         "name": "body",
