@@ -1,8 +1,11 @@
 {
-  "/forms": {
+  "/users/{userId}/forms": {
     "$ref": "forms.swagger.json"
   },
-  "/forms/{id}": {
+  "/users/{userId}/forms/{formId}": {
     "$ref": "form.swagger.json"
+  },
+  "/answers": {
+    "$ref": "answers.swagger.json"
   }
 }

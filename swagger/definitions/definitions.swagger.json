@@ -295,7 +295,52 @@
           }
         }
       },
-  
+       "newAnswer": {
+        "description": "An object describing the answer model",
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "formId": {
+            "type": "string"
+          },
+          "questionType": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "User"
+        }
+      },
+      "answer": {
+        "description": "An object describing the answer model",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "formId": {
+            "type": "string"
+          },
+          "questionType": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "User"
+        }
+      },
       "jsonapi": {
         "description": "An object describing the server's implementation",
         "type": "object",

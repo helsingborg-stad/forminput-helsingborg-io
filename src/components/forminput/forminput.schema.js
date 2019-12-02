@@ -7,8 +7,8 @@ const { id } = require('../../validation/global.schema');
 
 const PostValidaionSchema = Joi.object().keys({
   userId: Joi.number().required(),
-  formId: Joi.number().required(),
-  answer: Joi.required(),
+  formId: Joi.string().required(),
+  answer: Joi.string().required(),
   questionType: Joi.string().min(5).max(24).required(),
 });
 
@@ -24,7 +24,7 @@ const post = {
 const PutValidaionSchema = Joi.object().keys({
   id,
   userId: Joi.number().required(),
-  formId: Joi.number().required(),
+  formId: Joi.string().required(),
   answer: Joi.string().required(),
   questionType: Joi.string().min(5).max(24).required(),
 });
@@ -40,7 +40,7 @@ const put = {
 
 const queryFormsValidationSchema = Joi.object().keys({
   userId: Joi.number().required(),
-  formId: Joi.number().required(),
+  formId: Joi.string().required(),
 });
 
 const queryUserValidationSchema = Joi.object().keys({

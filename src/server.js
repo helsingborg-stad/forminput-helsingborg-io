@@ -57,7 +57,7 @@ jsonSchemaRefParser.dereference(swaggerDocument, (err, schema) => {
   } else {
     // `schema` is just a normal JavaScript object that contains your entire JSON Schema,
     // including referenced files, combined into a single object
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(schema));
+    app.use(`${V1BASEPATH}/api-docs`, swaggerUi.serve, swaggerUi.setup(schema));
   }
 });
 
